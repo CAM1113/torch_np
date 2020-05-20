@@ -13,10 +13,8 @@ class poly_net(nn.Module):
             nn.Linear(in_features=1, out_features=10, bias=True),
             nn.LeakyReLU(inplace=True, negative_slope=0.05),
 
-
             nn.Linear(in_features=10, out_features=100, bias=False),
             nn.LeakyReLU(inplace=True, negative_slope=0.05),
-
 
             nn.Linear(in_features=100, out_features=500, bias=False),
             nn.LeakyReLU(inplace=True, negative_slope=0.05),
@@ -38,7 +36,6 @@ def func(x):
     return x + 10 * np.sin(x * 5) + 7 * np.cos(4 * x)
 
 
-
 def generator_examples(num=1000):
     x = np.random.random(size=num) * 20 - 10
     y = func(x)
@@ -53,7 +50,7 @@ if __name__ == '__main__':
     lr = 1e-3
     optimizer = optim.Adam(net.parameters(), lr=lr, )
 
-    for i in range(50000):
+    for i in range(10000):
         optimizer.zero_grad()
         x_data, y_data = generator_examples()
         x_data = Variable(x_data)
@@ -62,9 +59,9 @@ if __name__ == '__main__':
         loss = criterion(y_data, y_pred)
         loss.backward()
         optimizer.step()
-        if i % 1000 == 0:
+        if i % 100 == 0:
             print(loss.item())
-        if i % 5000 == 0:
+        if i % 500 == 0:
             lr = lr / 10
             weight = net.parameters()
 
@@ -77,4 +74,3 @@ if __name__ == '__main__':
     y_true = func(x_pre)
     plt.plot(x_pre, y_true)
     plt.show()
-
